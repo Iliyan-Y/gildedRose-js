@@ -29,17 +29,17 @@ describe('Gilded Rose', function () {
       expect(shop.items[0].quality).toEqual(8);
     });
   });
-
+  // -----------------------------
   // Edge case !
-  // ask the customer for it
-  it('Check if normal item can be listed with quality more then 50', () => {
-    let shop = new Shop([new FakeItem('+5 Dexterity Vest', 10, 56)]);
-    shop.updateQuality();
-    expect(shop.items[0].sellIn).toEqual(9);
-    expect(shop.items[0].quality).toEqual(50);
-  });
-
-  describe('“Aged Brie', () => {
+  // ask the customer if he want's to be sorted
+  // it('Check if normal item can be listed with quality more then 50', () => {
+  //   let shop = new Shop([new FakeItem('+5 Dexterity Vest', 10, 56)]);
+  //   shop.updateQuality();
+  //   expect(shop.items[0].sellIn).toEqual(9);
+  //   expect(shop.items[0].quality).toEqual(50);
+  // });
+  // -----------------------------
+  describe('Aged Brie', () => {
     let shop;
     beforeEach(() => {
       shop = new Shop([new FakeItem('Aged Brie', 2, 0)]);
@@ -108,6 +108,16 @@ describe('Gilded Rose', function () {
       shop.updateQuality();
       expect(shop.items[0].sellIn).toEqual(-1);
       expect(shop.items[0].quality).toEqual(0);
+    });
+  });
+
+  describe('Conjured items', () => {
+    let shop = new Shop([new FakeItem('Conjured Mana Cake', 3, 6)]);
+
+    it('Conjured items degrade in Quality twice as fast as normal items', () => {
+      shop.updateQuality();
+      expect(shop.items[0].sellIn).toEqual(2);
+      expect(shop.items[0].quality).toEqual(4);
     });
   });
 });
