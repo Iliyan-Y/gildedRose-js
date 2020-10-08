@@ -30,6 +30,15 @@ describe('Gilded Rose', function () {
     });
   });
 
+  // Edge case !
+  // ask the customer for it
+  it('Check if normal item can be listed with quality more then 50', () => {
+    let shop = new Shop([new FakeItem('+5 Dexterity Vest', 10, 56)]);
+    shop.updateQuality();
+    expect(shop.items[0].sellIn).toEqual(9);
+    expect(shop.items[0].quality).toEqual(50);
+  });
+
   describe('“Aged Brie', () => {
     let shop;
     beforeEach(() => {
@@ -72,6 +81,33 @@ describe('Gilded Rose', function () {
       shop.updateQuality();
       expect(shop.items[0].sellIn).toEqual(14);
       expect(shop.items[0].quality).toEqual(21);
+    });
+
+    it('Quality increases by 2 when there are 10 days or less', () => {
+      let shop = new Shop([
+        new FakeItem('Backstage passes to a TAFKAL80ETC concert', 10, 20),
+      ]);
+      shop.updateQuality();
+      expect(shop.items[0].sellIn).toEqual(9);
+      expect(shop.items[0].quality).toEqual(22);
+    });
+
+    it('Quality increases by 3 when there are 5 days or less', () => {
+      let shop = new Shop([
+        new FakeItem('Backstage passes to a TAFKAL80ETC concert', 5, 20),
+      ]);
+      shop.updateQuality();
+      expect(shop.items[0].sellIn).toEqual(4);
+      expect(shop.items[0].quality).toEqual(23);
+    });
+
+    it('Quality drops to 0 after the concert', () => {
+      let shop = new Shop([
+        new FakeItem('Backstage passes to a TAFKAL80ETC concert', 0, 20),
+      ]);
+      shop.updateQuality();
+      expect(shop.items[0].sellIn).toEqual(-1);
+      expect(shop.items[0].quality).toEqual(0);
     });
   });
 });
