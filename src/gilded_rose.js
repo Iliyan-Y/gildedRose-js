@@ -16,13 +16,14 @@ class Shop {
       let itemName = this.items[i].name;
 
       let itemQuality = this.items[i].quality;
-      console.log(itemQuality - 200);
       if (
         itemName != 'Aged Brie' &&
         itemName != 'Backstage passes to a TAFKAL80ETC concert'
       ) {
         if (this.items[i].quality > 0) {
-          if (itemName != 'Sulfuras, Hand of Ragnaros') {
+          if (itemName == 'Conjured Mana Cake') {
+            this.items[i].quality = this.items[i].quality - 2;
+          } else if (itemName != 'Sulfuras, Hand of Ragnaros') {
             this.items[i].quality = this.items[i].quality - 1;
           }
         }
@@ -47,17 +48,19 @@ class Shop {
       if (itemName != 'Sulfuras, Hand of Ragnaros') {
         this.items[i].sellIn = this.items[i].sellIn - 1;
       }
+      //sell by less then ZERO
       if (this.items[i].sellIn < 0) {
         if (itemName != 'Aged Brie') {
           if (itemName != 'Backstage passes to a TAFKAL80ETC concert') {
             if (this.items[i].quality > 0) {
-              if (itemName != 'Sulfuras, Hand of Ragnaros') {
+              if (itemName == 'Conjured Mana Cake') {
+                this.items[i].quality = this.items[i].quality - 2;
+              } else if (itemName != 'Sulfuras, Hand of Ragnaros') {
                 this.items[i].quality = this.items[i].quality - 1;
               }
             }
           } else {
-            this.items[i].quality =
-              this.items[i].quality - this.items[i].quality;
+            this.items[i].quality = 0;
           }
         } else {
           if (this.items[i].quality < 50) {
