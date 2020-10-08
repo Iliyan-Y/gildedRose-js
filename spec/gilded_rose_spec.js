@@ -20,6 +20,14 @@ describe('Gilded Rose', function () {
       expect(shop.items[0].sellIn).toEqual(-11);
       expect(shop.items[0].quality).toEqual(0);
     });
+
+    it('Check if Once the sell by date has passed, Quality degrades twice as fast', () => {
+      for (let i = 0; i < 11; i++) {
+        shop.updateQuality();
+      }
+      expect(shop.items[0].sellIn).toEqual(-1);
+      expect(shop.items[0].quality).toEqual(8);
+    });
   });
 
   describe('“Aged Brie', () => {
@@ -40,6 +48,30 @@ describe('Gilded Rose', function () {
       }
       expect(shop.items[0].sellIn).toEqual(-50);
       expect(shop.items[0].quality).toEqual(50);
+    });
+  });
+
+  describe('Sulfuras Items', () => {
+    let shop;
+    beforeEach(() => {
+      shop = new Shop([new FakeItem('Sulfuras, Hand of Ragnaros', 0, 80)]);
+    });
+
+    it('is unique item, never has to be sold or decreases in Quality ', () => {
+      shop.updateQuality();
+      expect(shop.items[0].sellIn).toEqual(0);
+      expect(shop.items[0].quality).toEqual(80);
+    });
+  });
+
+  describe('Backstage passes', () => {
+    it('like aged brie, increases in Quality as it’s SellIn value approaches', () => {
+      let shop = new Shop([
+        new FakeItem('Backstage passes to a TAFKAL80ETC concert', 15, 20),
+      ]);
+      shop.updateQuality();
+      expect(shop.items[0].sellIn).toEqual(14);
+      expect(shop.items[0].quality).toEqual(21);
     });
   });
 });
