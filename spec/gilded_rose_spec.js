@@ -46,11 +46,12 @@ describe('Gilded Rose', function () {
   // -----------------------------
   describe('Aged Brie', () => {
     beforeEach(() => {
-      shop.addItem('Aged Brie', 2, 0);
+      shop.addItem('aged Brie', 2, 0);
     });
 
-    it('Check if the quality increase when the sellIn decrees', () => {
+    it('Check if the quality increase when the sellIn decrees and name is capitalized', () => {
       shop.updateQuality();
+      expect(shop.items[0].name).toEqual('Aged Brie');
       expect(shop.items[0].sellIn).toEqual(1);
       expect(shop.items[0].quality).toEqual(1);
     });
