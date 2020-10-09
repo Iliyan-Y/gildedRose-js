@@ -73,6 +73,10 @@ class Shop {
     if (itemName == 'Backstage' && currentItem.sellIn < 6) {
       currentItem.quality += 1;
     }
+
+    if (itemName == 'Backstage' && currentItem.quality >= this.MAXVALUE) {
+      currentItem.quality = this.MAXVALUE;
+    }
   }
 
   _decreesQuality(itemName, currentItem) {

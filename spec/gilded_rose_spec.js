@@ -93,10 +93,10 @@ describe('Gilded Rose', function () {
     });
 
     it('Quality increases by 3 when there are 5 days or less', () => {
-      shop.addItem('Backstage passes to a TAFKAL80ETC concert', 5, 20);
+      shop.addItem('Backstage passes to a TAFKAL80ETC concert', 5, 48);
       shop.updateQuality();
       expect(shop.items[0].sellIn).toEqual(4);
-      expect(shop.items[0].quality).toEqual(23);
+      expect(shop.items[0].quality).toEqual(50);
     });
 
     it('Quality drops to 0 after the concert', () => {
