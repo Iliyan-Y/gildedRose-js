@@ -31,9 +31,7 @@ class Shop {
     "Backstage": (item) => {
       item.sellIn -= 1
       item.quality++
-      if (item.sellIn < 11)  item.quality++;  
-      if (item.sellIn < 6)   item.quality += 2; 
-      if (item.sellIn < 0)  item.quality = this.MINVALUE;  
+      this._backStageCase(item)
     },
     "Sulfuras": (item) => { }
     }
@@ -42,6 +40,12 @@ class Shop {
   _normalItem(item){
     item.sellIn -= 1
     item.sellIn < 0 ? item.quality -= 2 : item.quality--; 
+  }
+
+  _backStageCase(item){
+    if (item.sellIn < 11)  item.quality++;  
+    if (item.sellIn < 6)   item.quality += 2; 
+    if (item.sellIn < 0)  item.quality = this.MINVALUE;
   }
   
   _validateMinQuality(item, name) {
