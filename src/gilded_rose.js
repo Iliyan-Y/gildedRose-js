@@ -14,19 +14,15 @@ class Shop {
     for (var i = 0; i < this.items.length; i++) {
       let itemName = this.items[i].name;
       let currentItem = this.items[i];
-
-      if (itemName != 'Sulfuras, Hand of Ragnaros') {
-        currentItem.sellIn = currentItem.sellIn - 1;
-      }
-
+      this._countDawn(itemName, currentItem);
       this._sellIn(itemName, currentItem);
-
       this._sellAfterExpireTime(itemName, currentItem);
     }
 
     return this.items;
   }
 
+  //------- Helpers -------
   _sellIn(itemName, currentItem) {
     if (
       itemName != 'Aged Brie' &&
@@ -34,11 +30,9 @@ class Shop {
       currentItem.quality > 0
     ) {
       this._decreesQuality(itemName, currentItem);
-    } else {
-      if (currentItem.quality < 50) {
-        currentItem.quality = currentItem.quality + 1;
-        this._backStagePriceRate(itemName, currentItem);
-      }
+    } else if (currentItem.quality < 50) {
+      currentItem.quality = currentItem.quality + 1;
+      this._backStagePriceRate(itemName, currentItem);
     }
   }
 
@@ -46,11 +40,15 @@ class Shop {
     if (currentItem.sellIn < 0) {
       if (itemName != 'Aged Brie') {
         this._backStageCheck(itemName, currentItem);
-      } else {
-        if (currentItem.quality < 50) {
-          currentItem.quality = currentItem.quality + 1;
-        }
+      } else if (currentItem.quality < 50) {
+        currentItem.quality = currentItem.quality + 1;
       }
+    }
+  }
+
+  _countDawn(itemName, currentItem) {
+    if (itemName != 'Sulfuras, Hand of Ragnaros') {
+      currentItem.sellIn = currentItem.sellIn - 1;
     }
   }
 
@@ -67,17 +65,18 @@ class Shop {
   }
 
   _backStagePriceRate(itemName, currentItem) {
-    if (itemName == 'Backstage passes to a TAFKAL80ETC concert') {
-      if (currentItem.sellIn < 11) {
-        if (currentItem.quality < 50) {
-          currentItem.quality = currentItem.quality + 1;
-        }
-      }
-      if (currentItem.sellIn < 6) {
-        if (currentItem.quality < 50) {
-          currentItem.quality = currentItem.quality + 1;
-        }
-      }
+    if (
+      itemName == 'Backstage passes to a TAFKAL80ETC concert' &&
+      currentItem.sellIn < 11
+    ) {
+      currentItem.quality += 1;
+    }
+
+    if (
+      itemName == 'Backstage passes to a TAFKAL80ETC concert' &&
+      currentItem.sellIn < 6
+    ) {
+      currentItem.quality += 1;
     }
   }
 
