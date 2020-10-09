@@ -17,12 +17,10 @@ class Shop {
 
       if (
         itemName != 'Aged Brie' &&
-        itemName != 'Backstage passes to a TAFKAL80ETC concert'
+        itemName != 'Backstage passes to a TAFKAL80ETC concert' &&
+        this.items[i].quality > 0
       ) {
-        //decrees  the quality
-        if (this.items[i].quality > 0) {
-          this.decreesQuality(itemName, i);
-        }
+        this._decreesQuality(itemName, i);
       } else {
         if (this.items[i].quality < 50) {
           this.items[i].quality = this.items[i].quality + 1;
@@ -47,13 +45,7 @@ class Shop {
       //sell by less then ZERO
       if (this.items[i].sellIn < 0) {
         if (itemName != 'Aged Brie') {
-          if (itemName != 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].quality > 0) {
-              this.decreesQuality(itemName, i);
-            }
-          } else {
-            this.items[i].quality = 0;
-          }
+          this._backStageCheck(itemName, i);
         } else {
           if (this.items[i].quality < 50) {
             this.items[i].quality = this.items[i].quality + 1;
@@ -65,7 +57,19 @@ class Shop {
     return this.items;
   }
 
-  decreesQuality(itemName, itemNumber) {
+  _backStageCheck(itemName, itemNumber) {
+    if (
+      itemName != 'Backstage passes to a TAFKAL80ETC concert' &&
+      this.items[itemNumber].quality > 0
+    ) {
+      this._decreesQuality(itemName, itemNumber);
+    } else {
+      //drops the quality of the backstage pass to 0 after the concert
+      this.items[itemNumber].quality = 0;
+    }
+  }
+
+  _decreesQuality(itemName, itemNumber) {
     if (itemName == 'Conjured Mana Cake') {
       this.items[itemNumber].quality = this.items[itemNumber].quality - 2;
     } else if (itemName != 'Sulfuras, Hand of Ragnaros') {
