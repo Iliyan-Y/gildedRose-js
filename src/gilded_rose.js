@@ -1,8 +1,13 @@
 const { Item } = require('../src/items');
 
 class Shop {
-  constructor(items = []) {
-    this.items = items;
+  constructor(item = Item) {
+    this.items = [];
+    this.item = item;
+  }
+
+  addItem(name, sellIn, quality) {
+    this.items.push(new this.item(name, sellIn, quality));
   }
 
   updateQuality() {
