@@ -1,4 +1,4 @@
-const items = require('../src/items.js');
+
 var { Item } = require('../src/items.js');
 
 describe('Item', () => {

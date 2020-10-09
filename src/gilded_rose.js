@@ -14,78 +14,47 @@ class Shop {
   }
 
   updateQuality() {
-    for (var i = 0; i < this.items.length; i++) {
-      let itemName = this.items[i].name.replace(',', '').split(' ')[0];
-      let currentItem = this.items[i];
-
-      this._countDawn(itemName, currentItem);
-      this._sellIn(itemName, currentItem);
-      this._sellAfterExpireTime(itemName, currentItem);
-    }
-
-    return this.items;
+    this.items = this.items.map((item) => {
+      let name = item.name.replace(',', '').split(' ')[0];
+      let updateItem = this._checkForSpecial()[name]
+      updateItem ? updateItem(item) : this._normalItem(item)
+      this._validateMinQuality(item, name)
+      this._validateMaxQuality(item, name)
+      return item
+    })
   }
 
-  //------- Helpers -------
-  _sellIn(itemName, currentItem) {
-    if (
-      itemName != 'Aged' &&
-      itemName != 'Backstage' &&
-      currentItem.quality > this.MINVALUE
-    ) {
-      this._decreesQuality(itemName, currentItem);
-    } else if (currentItem.quality < this.MAXVALUE) {
-      currentItem.quality += 1;
-      this._backStagePriceRate(itemName, currentItem);
-    }
-  }
-
-  _sellAfterExpireTime(itemName, currentItem) {
-    if (currentItem.sellIn < this.MINVALUE) {
-      if (itemName != 'Aged') {
-        this._backStageCheck(itemName, currentItem);
-      } else if (currentItem.quality < this.MAXVALUE) {
-        currentItem.quality += 1;
-      }
+  _checkForSpecial() {
+    return {
+    "Conjured": (item) => {item.quality -= 2; item.sellIn -= 1},
+    "Aged": (item) => {item.quality++; item.sellIn -= 1},
+    "Backstage": (item) => {
+      item.sellIn -= 1
+      item.quality++
+      if (item.sellIn < 11)  item.quality++;  
+      if (item.sellIn < 6)   item.quality += 2; 
+      if (item.sellIn < 0)  item.quality = this.MINVALUE;  
+    },
+    "Sulfuras": (item) => { }
     }
   }
 
-  _countDawn(itemName, currentItem) {
-    if (itemName != 'Sulfuras') {
-      currentItem.sellIn -= 1;
+  _normalItem(item){
+    item.sellIn -= 1
+    item.sellIn < 0 ? item.quality -= 2 : item.quality--; 
+  }
+  
+  _validateMinQuality(item, name) {
+    if (item.quality < this.MINVALUE && name != "Sulfuras") {
+      item.quality = this.MINVALUE
+    }
+  }
+  _validateMaxQuality(item, name) { 
+    if (item.quality > this.MAXVALUE && name != "Sulfuras") {
+      item.quality = this.MAXVALUE
     }
   }
 
-  _backStageCheck(itemName, currentItem) {
-    if (itemName != 'Backstage' && currentItem.quality > this.MINVALUE) {
-      this._decreesQuality(itemName, currentItem);
-    } else {
-      //drops the quality of the backstage pass to 0 after the concert
-      currentItem.quality = this.MINVALUE;
-    }
-  }
-
-  _backStagePriceRate(itemName, currentItem) {
-    if (itemName == 'Backstage' && currentItem.sellIn < 11) {
-      currentItem.quality += 1;
-    }
-
-    if (itemName == 'Backstage' && currentItem.sellIn < 6) {
-      currentItem.quality += 1;
-    }
-
-    if (itemName == 'Backstage' && currentItem.quality >= this.MAXVALUE) {
-      currentItem.quality = this.MAXVALUE;
-    }
-  }
-
-  _decreesQuality(itemName, currentItem) {
-    if (itemName == 'Conjured') {
-      currentItem.quality -= 2;
-    } else if (itemName != 'Sulfuras') {
-      currentItem.quality -= 1;
-    }
-  }
 }
 module.exports = {
   Item,

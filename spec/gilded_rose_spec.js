@@ -67,12 +67,12 @@ describe('Gilded Rose', function () {
 
   describe('Sulfuras Items', () => {
     beforeEach(() => {
-      shop.addItem('Sulfuras, Hand of Ragnaros', 0, 80);
+      shop.addItem('Sulfuras, Hand of Ragnaros', -2, 80);
     });
 
     it('is unique item, never has to be sold or decreases in Quality ', () => {
       shop.updateQuality();
-      expect(shop.items[0].sellIn).toEqual(0);
+      expect(shop.items[0].sellIn).toEqual(-2);
       expect(shop.items[0].quality).toEqual(80);
     });
   });
