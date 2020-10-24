@@ -9,7 +9,7 @@ class Shop {
   }
 
   addItem(name, sellIn, quality) {
-    name = name.charAt(0).toUpperCase() + name.slice(1);
+    name = this._capitalized(name);
     this.items.push(new this.item(name, sellIn, quality));
   }
 
@@ -22,6 +22,10 @@ class Shop {
       this._validateMaxQuality(item, name);
       return item;
     });
+  }
+
+  _capitalized(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   _checkForSpecialItem() {
@@ -49,9 +53,12 @@ class Shop {
   }
 
   _backStageCaseCheck(item) {
-    if (item.sellIn < 11) item.quality++;
-    if (item.sellIn < 6) item.quality += 2;
-    if (item.sellIn < 0) item.quality = this.MINVALUE;
+    let tenDaysToConcert = 10;
+    let fiveDaysToConcert = 5;
+    let expiredTicket = 0;
+    if (item.sellIn <= tenDaysToConcert) item.quality++;
+    if (item.sellIn <= fiveDaysToConcert) item.quality += 2;
+    if (item.sellIn < expiredTicket) item.quality = this.MINVALUE;
   }
 
   _validateMinQuality(item, name) {
