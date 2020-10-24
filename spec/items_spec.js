@@ -1,4 +1,3 @@
-
 var { Item } = require('../src/items.js');
 
 describe('Item', () => {

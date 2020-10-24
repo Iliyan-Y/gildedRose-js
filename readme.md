@@ -11,7 +11,7 @@
 
 - The first thing I 've done was to start writing tests. I wrote test for each case and checked if the program actually work as described.
 - Second I've focused on the main task - add the new item in the shop with required conditions.
-- Third I refactured the whole code ot be more readable.
+- Third I refactured the whole code to be more readable.
 
 # Code structure
 
@@ -19,6 +19,5 @@
 - The Item class is responsible for storing all the data related to the product.
 - The Shop class is capable to add items in his storage
 - The Shop class is updating the data of the items each day, this happen with the updateQuality and three main helper methods:
-  - countDawn() => counting down the days for the shelf life of the product
-  - sellIn() => responsible to check for the adequate quality for for a products in good condition
-  - sellAfterExpireTime() => responsible to check the correct quality of the products after the expire day
+  - checkForSpecialItem() => calculates the values for the special items
+  - updateNormalItem() => calculates the values for the normal items

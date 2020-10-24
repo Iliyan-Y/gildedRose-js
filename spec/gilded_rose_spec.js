@@ -1,5 +1,5 @@
 var { Shop } = require('../src/gilded_rose.js');
-var { FakeItem } = require('../spec/testHelpers');
+var { FakeItem } = require('./test_helpers');
 describe('Gilded Rose', function () {
   let shop;
 
@@ -34,16 +34,6 @@ describe('Gilded Rose', function () {
       expect(shop.items[0].quality).toEqual(8);
     });
   });
-  // -----------------------------
-  // Edge case !
-  // ask the customer if he want's to be sorted
-  // it('Check if normal item can be listed with quality more then 50', () => {
-  //   let shop = new Shop([new FakeItem('+5 Dexterity Vest', 10, 56)]);
-  //   shop.updateQuality();
-  //   expect(shop.items[0].sellIn).toEqual(9);
-  //   expect(shop.items[0].quality).toEqual(50);
-  // });
-  // -----------------------------
   describe('Aged Brie', () => {
     beforeEach(() => {
       shop.addItem('aged Brie', 2, 0);
